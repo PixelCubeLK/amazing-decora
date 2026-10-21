@@ -30,8 +30,8 @@
             class="fixed top-0 left-0 w-full z-50 py-4 px-6 lg:px-12 text-white ${initiallySolid ? 'bg-brand-dark shadow-md' : 'bg-transparent'}" data-solid="${initiallySolid}">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
                 <a href="${pageUrl('index.html')}" class="flex items-center shrink-0" aria-label="Amazing Decora home">
-                    <img src="${pageUrl('images/brand/amazing-decora-logo.png')}" alt="Amazing Decora"
-                        width="2966" height="2069" class="h-14 md:h-16 w-auto object-contain">
+                    <img src="${pageUrl('images/brand/amazing-decora-logo.webp')}" alt="Amazing Decora"
+                        width="320" height="223" class="h-14 md:h-16 w-auto object-contain">
                 </a>
                 <div class="hidden md:flex items-center gap-8">${renderLinks(false)}</div>
                 <button id="mobile-menu-btn" type="button" aria-label="Open navigation menu"

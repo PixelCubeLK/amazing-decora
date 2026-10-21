@@ -9,8 +9,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
                     <div>
                         <a href="${pageUrl('index.html')}" class="inline-flex mb-6" aria-label="Amazing Decora home">
-                            <img src="${pageUrl('images/brand/amazing-decora-logo.png')}" alt="Amazing Decora"
-                                width="2966" height="2069" class="h-20 w-auto object-contain" loading="lazy">
+                            <img src="${pageUrl('images/brand/amazing-decora-logo.webp')}" alt="Amazing Decora"
+                                width="320" height="223" class="h-20 w-auto object-contain" loading="lazy">
                         </a>
                         <p class="text-gray-300">Helping your plants reach new heights with premium, eco-friendly supports.</p>
                     </div>
