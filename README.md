@@ -20,6 +20,7 @@ Once activated, you will receive all future customer inquiries directly to your 
 - `index.html`: homepage and website entry point.
 - `pages/`: Products, About Us, and Contact pages.
 - `images/`: images grouped by purpose.
+- `components/footer.js`: global footer, product and company links, social links, contact details, and copyright. Edit this file to update every page.
 - `script.js`: shared website behavior.
 - `components/header.js`: global header, logo, menu links, active page styles, and mobile navigation. Edit this file to update the header across all pages.
 
