@@ -5,7 +5,8 @@
   "name": "amazing-decora",
   "private": true,
   "scripts": {
-    "build": "tailwindcss -i ./styles/input.css -o ./styles/site.css --minify",
+    "build": "npm run build:css && node scripts/prepare-dist.js",
+    "build:css": "tailwindcss -i ./styles/input.css -o ./styles/site.css --minify",
     "dev:css": "tailwindcss -i ./styles/input.css -o ./styles/site.css --watch"
   }
 }
