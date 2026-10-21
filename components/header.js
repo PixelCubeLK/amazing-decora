@@ -12,6 +12,7 @@
     const isActive = (path) => currentPath === new URL(path, siteRoot).pathname ||
         (path === 'index.html' && currentPath === siteRoot.pathname);
     const isHome = isActive('index.html');
+    const initiallySolid = !isHome || window.scrollY > 50;
     const renderLinks = (mobile) => links.map(({ label, path }) => {
         const active = isActive(path);
         const classes = mobile
@@ -26,7 +27,7 @@
     if (!host) return;
     host.innerHTML = `
         <nav id="navbar" aria-label="Main navigation"
-            class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 lg:px-12 text-white ${isHome ? 'bg-transparent' : 'bg-brand-dark shadow-md'}">
+            class="fixed top-0 left-0 w-full z-50 py-4 px-6 lg:px-12 text-white ${initiallySolid ? 'bg-brand-dark shadow-md' : 'bg-transparent'}" data-solid="${initiallySolid}">
             <div class="max-w-7xl mx-auto flex justify-between items-center">
                 <a href="${pageUrl('index.html')}" class="flex items-center shrink-0" aria-label="Amazing Decora home">
                     <img src="${pageUrl('images/brand/amazing-decora-logo.png')}" alt="Amazing Decora"
@@ -62,10 +63,19 @@
     window.matchMedia('(min-width: 768px)').addEventListener('change', () => setMenuOpen(false));
     const updateNavbar = () => {
         const solid = !isHome || window.scrollY > 50;
+        navbar.dataset.solid = String(solid);
         navbar.classList.toggle('bg-brand-dark', solid);
         navbar.classList.toggle('shadow-md', solid);
         navbar.classList.toggle('bg-transparent', !solid);
     };
     window.addEventListener('scroll', updateNavbar, { passive: true });
     updateNavbar();
+    // Restore the initial scroll state before enabling background transitions.
+    const finishInitialRender = () => {
+        navbar.classList.remove('nav-ready');
+        updateNavbar();
+        requestAnimationFrame(() => requestAnimationFrame(() => navbar.classList.add('nav-ready')));
+    };
+    window.addEventListener('pageshow', finishInitialRender);
+    if (document.readyState === 'complete') finishInitialRender();
 })();
