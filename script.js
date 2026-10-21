@@ -1,29 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- Scroll Animations (Fade In) ---
-    // Select all elements with class 'fade-in-up' (I need to add this class to HTML elements if I want to use it)
-    // Or just animate sections
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (preference.matches || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
+    const candidates = [...document.querySelectorAll('body > header > :not(.absolute), section .grid > *, section h2, main .grid > *, main h2, main .prose > p, main img, section > .relative > *, #site-footer .grid > *, #site-footer .border-t')];
+    const blocks = candidates.filter(element => !element.closest('.hero-content') && !candidates.some(parent => parent !== element && parent.contains(element)));
+    const running = new Set();
+    const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('opacity-100', 'translate-y-0');
-                entry.target.classList.remove('opacity-0', 'translate-y-10');
-                observer.unobserve(entry.target);
-            }
+            if (!entry.isIntersecting) return;
+            const element = entry.target;
+            element.style.removeProperty('opacity');
+            const siblings = [...element.parentElement.children].filter(child => blocks.includes(child));
+            const animation = element.animate([
+                { opacity: 0, translate: '0 24px' },
+                { opacity: 1, translate: '0 0' }
+            ], { duration: 650, delay: Math.min(Math.max(siblings.indexOf(element), 0) * 80, 240), easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'backwards' });
+            running.add(animation);
+            animation.finished.then(() => running.delete(animation)).catch(() => {});
+            observer.unobserve(element);
         });
-    }, observerOptions);
-
-    // Apply to product cards and feature items
-    const animatedElements = document.querySelectorAll('.group, .prose p, h2');
-    animatedElements.forEach(el => {
-        el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
-        observer.observe(el);
+    }, { threshold: 0, rootMargin: '0px 0px -24px 0px' });
+    blocks.forEach(element => {
+        element.style.opacity = '0';
+        element.addEventListener('focusin', () => {
+            element.style.removeProperty('opacity');
+            observer.unobserve(element);
+        }, { once: true });
+        observer.observe(element);
     });
-
+    preference.addEventListener('change', event => {
+        if (!event.matches) return;
+        observer.disconnect();
+        blocks.forEach(element => element.style.removeProperty('opacity'));
+        running.forEach(animation => animation.cancel());
+    });
 });
