@@ -3,6 +3,12 @@
 This is a premium, multi-page website for Amazing Decora, built with **HTML, CSS, JavaScript, and Tailwind CSS**.
 
 ## How to Run
+### CSS build
+
+Install build tools with `npm ci`, then run `npm run build` to generate the minified `styles/site.css`. Run `npm run dev:css` to rebuild automatically while editing. Tailwind scans all pages and shared JavaScript components; keep utility class names complete in source code so they are included. Custom overrides and animations load after the generated stylesheet.
+
+Rebuild after adding or changing Tailwind classes. Deploy `styles/site.css` with the static site; Node.js and `node_modules` are not needed on the host. The generated CSS is checked into the project so the site also works without a local build.
+
 Production URL: `https://amazingdecora.com/`. SEO canonical URLs, social previews and `sitemap.xml` use this origin.
 
 Before launch, configure hosting to serve HTTPS and redirect HTTP and `www.amazingdecora.com` to this origin. Redirect `/index.html` to `/` permanently to match the homepage canonical. These redirects must be configured on the chosen host; they are not implemented by this static HTML project. Verify the domain in Google Search Console, submit `https://amazingdecora.com/sitemap.xml`, and inspect the live URLs after deployment. Keep sitemap URLs in sync when adding pages.

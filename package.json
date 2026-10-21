@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "name": "amazing-decora",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./styles/input.css -o ./styles/site.css --minify",
+    "dev:css": "tailwindcss -i ./styles/input.css -o ./styles/site.css --watch"
+  }
+}
