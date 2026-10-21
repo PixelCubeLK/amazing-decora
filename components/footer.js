@@ -1,6 +1,6 @@
 (() => {
     const siteRoot = new URL('../', document.currentScript.src);
-    const pageUrl = (path) => new URL(path, siteRoot).href;
+    const pageUrl = (path) => new URL(path === 'index.html' ? '' : path.replace(/^pages\/(.+)\.html$/, '$1'), siteRoot).href;
     const host = document.getElementById('site-footer');
     if (!host) return;
     host.innerHTML = `
