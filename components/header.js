@@ -1,16 +1,17 @@
 (() => {
     const script = document.currentScript;
     const siteRoot = new URL('../', script.src);
-    const pageUrl = (path) => new URL(path, siteRoot).href;
-    const currentPath = window.location.pathname;
+    const cleanPath = (path) => path === 'index.html' ? '' : path.replace(/^pages\/(.+)\.html$/, '$1');
+    const pageUrl = (path) => new URL(cleanPath(path), siteRoot).href;
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
     const links = [
         { label: 'Home', path: 'index.html' },
         { label: 'Products', path: 'pages/products.html' },
         { label: 'About Us', path: 'pages/about.html' },
         { label: 'Contact', path: 'pages/contact.html' },
     ];
-    const isActive = (path) => currentPath === new URL(path, siteRoot).pathname ||
-        (path === 'index.html' && currentPath === siteRoot.pathname);
+    const isActive = (path) => currentPath === (new URL(cleanPath(path), siteRoot).pathname.replace(/\/$/, '') || '/') ||
+        currentPath === new URL(path, siteRoot).pathname;
     const isHome = isActive('index.html');
     const initiallySolid = !isHome || window.scrollY > 50;
     const renderLinks = (mobile) => links.map(({ label, path }) => {
