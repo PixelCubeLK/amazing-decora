@@ -38,36 +38,9 @@
 
 <body class="bg-brand-light text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <!-- Navigation -->
-    <nav id="navbar"
-        class="fixed w-full z-50 transition-all duration-300 py-4 px-6 lg:px-12 bg-brand-dark text-white shadow-md">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="../index.html" class="flex items-center shrink-0" aria-label="Amazing Decora home">
-                <img src="../images/brand/amazing-decora-logo.png" alt="Amazing Decora" width="2966" height="2069"
-                    class="h-14 md:h-16 w-auto object-contain">
-            </a>
-
-            <div class="hidden md:flex items-center gap-8">
-                <a href="../index.html" class="hover:text-brand-earth transition-colors font-medium">Home</a>
-                <a href="products.html" class="hover:text-brand-earth transition-colors font-medium">Products</a>
-                <a href="about.html" class="hover:text-brand-earth transition-colors font-medium">About Us</a>
-                <a href="contact.html" class="text-brand-earth font-bold border-b-2 border-brand-earth">Contact</a>
-            </div>
-
-            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
-                &#9776;
-            </button>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu"
-            class="hidden absolute top-full left-0 w-full bg-brand-dark shadow-xl py-4 flex-col items-center gap-4 border-t border-white/10">
-            <a href="../index.html" class="hover:text-brand-earth py-2 w-full text-center">Home</a>
-            <a href="products.html" class="hover:text-brand-earth py-2 w-full text-center">Products</a>
-            <a href="about.html" class="hover:text-brand-earth py-2 w-full text-center">About Us</a>
-            <a href="contact.html" class="text-brand-earth font-bold py-2 w-full text-center">Contact</a>
-        </div>
-    </nav>
+    <!-- Shared navigation: edit components/header.js -->
+    <div id="site-header"></div>
+    <script src="../components/header.js"></script>
 
     <!-- Header -->
     <header class="pt-32 pb-16 px-6 bg-brand-dark text-white text-center">

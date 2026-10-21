@@ -21,6 +21,7 @@ Once activated, you will receive all future customer inquiries directly to your 
 - `pages/`: Products, About Us, and Contact pages.
 - `images/`: images grouped by purpose.
 - `script.js`: shared website behavior.
+- `components/header.js`: global header, logo, menu links, active page styles, and mobile navigation. Edit this file to update the header across all pages.
 
 ## Images
 Images are organized by purpose:
