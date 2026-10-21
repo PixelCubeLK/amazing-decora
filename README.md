@@ -15,12 +15,19 @@ The contact form is set up to send emails to **`amazingdecora100@gmail.com`**.
 4.  **Click the "Activate" button** in that email.
 Once activated, you will receive all future customer inquiries directly to your inbox.
 
-## Images Setup
-To make your website look correct, save your images into the **`images`** folder:
-1.  `about_factory.jpg`
-2.  `pole.jpg`
-3.  `pot.jpg`
-4.  `orchid.jpg`
+## Project Structure
+
+- `index.html`: homepage and website entry point.
+- `pages/`: Products, About Us, and Contact pages.
+- `images/`: images grouped by purpose.
+- `script.js`: shared website behavior.
+
+## Images
+Images are organized by purpose:
+- `images/brand/`: rounded favicon and original source image.
+- `images/hero/`: homepage hero image.
+- `images/about/`: factory and company images.
+- `images/products/`: pole, pot, and orchid product images.
 
 ## Contact & Ordering
 -   "Inquire via WhatsApp" buttons on the Products page link to `+94 77 045 4112`.
