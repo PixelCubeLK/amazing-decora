@@ -66,6 +66,15 @@
                         </address>
                     </div>
                 </div>
+                <nav aria-label="Legal" class="border-t border-white/20 pt-8 pb-8">
+                    <h2 class="font-bold text-lg mb-4 text-amber-100">Legal</h2>
+                    <ul class="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-x-8 text-gray-300 text-sm">
+                        <li><a href="${pageUrl('pages/privacy-policy.html')}" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="${pageUrl('pages/terms-and-conditions.html')}" class="hover:text-white">Terms &amp; Conditions</a></li>
+                        <li><a href="${pageUrl('pages/shipping-and-delivery.html')}" class="hover:text-white">Shipping &amp; Delivery</a></li>
+                        <li><a href="${pageUrl('pages/returns-and-refunds.html')}" class="hover:text-white">Returns, Refunds &amp; Cancellations</a></li>
+                    </ul>
+                </nav>
                 <div class="border-t border-white/20 pt-8 text-center text-gray-300 text-sm">
                     &copy; ${new Date().getFullYear()} Amazing Decora. All rights reserved.
                 </div>
