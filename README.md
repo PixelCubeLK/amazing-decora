@@ -3,6 +3,10 @@
 This is a premium, multi-page website for Amazing Decora, built with **HTML, CSS, JavaScript, and Tailwind CSS**.
 
 ## How to Run
+Production URL: `https://amazingdecora.com/`. SEO canonical URLs, social previews and `sitemap.xml` use this origin.
+
+Before launch, configure hosting to serve HTTPS and redirect HTTP and `www.amazingdecora.com` to this origin. Redirect `/index.html` to `/` permanently to match the homepage canonical. These redirects must be configured on the chosen host; they are not implemented by this static HTML project. Verify the domain in Google Search Console, submit `https://amazingdecora.com/sitemap.xml`, and inspect the live URLs after deployment. Keep sitemap URLs in sync when adding pages.
+
 1.  Simply double-click `index.html` to open the website in your browser.
 2.  Navigate through the menu to see Products, About Us, and Contact pages.
 
