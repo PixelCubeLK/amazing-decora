@@ -29,8 +29,15 @@ Images are organized by purpose:
 - `images/about/`: factory and company images.
 - `images/products/`: pole, pot, and orchid product images.
 
+## Business Details
+
+- Name: Amazing Decora
+- Address: No 475, Kainaka, Kaikawala, Matale
+- Contact: +94740560413, +94766073750
+- Email: amazingdecora100@gmail.com
+
 ## Contact & Ordering
--   "Inquire via WhatsApp" buttons on the Products page link to `+94 77 045 4112`.
+-   "Inquire via WhatsApp" buttons on the Products page link to `+94 74 056 0413`.
 -   Footer contains links to Facebook, Instagram, and TikTok on all pages.
 
 ## Recent Changes
