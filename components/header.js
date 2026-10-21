@@ -15,10 +15,10 @@
     const renderLinks = (mobile) => links.map(({ label, path }) => {
         const active = isActive(path);
         const classes = mobile
-            ? `py-2 w-full text-center ${active ? 'text-brand-earth font-bold' : 'hover:text-brand-earth'}`
+            ? `py-2 w-full text-center ${active ? 'text-amber-100 font-bold underline underline-offset-8' : 'hover:text-amber-100'}`
             : path === 'pages/contact.html'
                 ? 'px-5 py-2 bg-brand-earth hover:bg-amber-700 rounded-full text-white transition-all transform hover:scale-105 font-medium'
-                : `font-medium transition-colors ${active ? 'text-brand-earth border-b-2 border-brand-earth' : 'hover:text-brand-earth'}`;
+                : `font-medium transition-colors ${active ? 'text-amber-100 border-b-2 border-amber-100' : 'hover:text-amber-100'}`;
         return `<a href="${pageUrl(path)}" class="${classes}"${active ? ' aria-current="page"' : ''}>${label}</a>`;
     }).join('');
 
