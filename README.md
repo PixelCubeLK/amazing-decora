@@ -5,6 +5,10 @@ This is a premium, multi-page website for Amazing Decora, built with **HTML, CSS
 ## How to Run
 ### CSS build
 
+### Cloudflare Workers deployment
+
+Set the Cloudflare build command to `npm run build` and deploy command to `npx wrangler deploy`. The root `wrangler.jsonc` publishes only `dist/`; never pass `--assets .` or use the repository root as the assets directory. The build copies website assets into `dist/` using an explicit allowlist and excludes `node_modules` and build configuration. HTML handling preserves the existing `.html` URLs. The Worker name is `amazing-decora`.
+
 Install build tools with `npm ci`, then run `npm run build` to generate the minified `styles/site.css`. Run `npm run dev:css` to rebuild automatically while editing. Tailwind scans all pages and shared JavaScript components; keep utility class names complete in source code so they are included. Custom overrides and animations load after the generated stylesheet.
 
 Rebuild after adding or changing Tailwind classes. Deploy `styles/site.css` with the static site; Node.js and `node_modules` are not needed on the host. The generated CSS is checked into the project so the site also works without a local build.

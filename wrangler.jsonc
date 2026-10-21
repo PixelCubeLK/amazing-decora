@@ -1,0 +1,8 @@
+{
+  "name": "amazing-decora",
+  "compatibility_date": "2026-10-21",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "none"
+  }
+}
