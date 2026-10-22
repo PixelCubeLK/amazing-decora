@@ -62,7 +62,8 @@
                             <p>No 475, Kainaka,<br>Kaikawala, Matale</p>
                             <p><a href="tel:+94740560413" class="hover:text-white transition-colors">+94 74 056 0413</a><br>
                                 <a href="tel:+94766073750" class="hover:text-white transition-colors">+94 76 607 3750</a></p>
-                            <p><a href="mailto:amazingdecora100@gmail.com" class="hover:text-white transition-colors break-all">amazingdecora100@gmail.com</a></p>
+                            <p><a href="mailto:info@amazingdecora.com" class="hover:text-white transition-colors break-all">info@amazingdecora.com</a><br>
+                                <a href="mailto:amazingdecora100@gmail.com" class="hover:text-white transition-colors break-all">amazingdecora100@gmail.com</a></p>
                         </address>
                     </div>
                 </div>
