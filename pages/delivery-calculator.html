@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/images/brand/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order &amp; Delivery Calculator | Amazing Decora</title>
+    <meta name="description" content="Build your Amazing Decora coir pole order and estimate the product total, parcel weight and delivery charge before you message us.">
+    <link rel="canonical" href="https://amazingdecora.com/delivery-calculator">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Amazing Decora">
+    <meta property="og:locale" content="en_LK">
+    <meta property="og:title" content="Order &amp; Delivery Calculator | Amazing Decora">
+    <meta property="og:description" content="Estimate your coir pole order total and delivery charge in seconds.">
+    <meta property="og:url" content="https://amazingdecora.com/delivery-calculator">
+    <meta property="og:image" content="https://amazingdecora.com/images/social/amazing-decora-og.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Order &amp; Delivery Calculator | Amazing Decora">
+    <meta name="twitter:description" content="Estimate your coir pole order total and delivery charge in seconds.">
+    <meta name="twitter:image" content="https://amazingdecora.com/images/social/amazing-decora-og.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Compiled Tailwind CSS -->
+    <link rel="stylesheet" href="/styles/site.css">
+    <link rel="stylesheet" href="/animations.css">
+</head>
+
+<body class="bg-brand-light text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+    <div id="site-header"></div>
+    <script src="/components/header.js"></script>
+
+    <header class="pt-32 pb-16 px-6 bg-brand-dark text-white text-center">
+        <h1 class="text-3xl md:text-5xl font-serif font-bold mb-4" data-t="title">Order &amp; Delivery Calculator</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg" data-t="subtitle">Build your order to estimate the product total, parcel weight and delivery charge.</p>
+    </header>
+
+    <main class="flex-grow py-12 md:py-16 px-4 sm:px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-wrap items-center justify-end gap-3 mb-6">
+                <label for="lang" class="text-sm font-medium text-brand-dark">Language / භාෂාව / மொழி</label>
+                <select id="lang" class="px-3 py-2 rounded-lg border border-brand-green/20 bg-white text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-green/40">
+                    <option value="en">English</option>
+                    <option value="si">සිංහල</option>
+                    <option value="ta">தமிழ்</option>
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                <!-- Order builder -->
+                <section class="lg:col-span-3" aria-labelledby="items-heading">
+                    <h2 id="items-heading" class="text-2xl font-serif font-bold text-brand-dark mb-4" data-t="yourItems">Your items</h2>
+                    <div id="items" class="space-y-4"></div>
+                    <button id="add-item" type="button"
+                        class="mt-4 w-full py-3 rounded-xl border-2 border-dashed border-brand-green/30 text-brand-green font-semibold hover:bg-white hover:border-brand-green/60 transition-colors">
+                        + <span data-t="add">Add another item</span>
+                    </button>
+
+                    <div class="mt-6 bg-white rounded-2xl p-5 border border-brand-green/10">
+                        <label for="pack" class="block text-sm font-semibold text-brand-dark mb-2" data-t="pack">Packaging weight (grams)</label>
+                        <input id="pack" type="number" min="0" step="10" value="0" inputmode="numeric"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40">
+                        <p class="text-xs text-gray-500 mt-2" data-t="packHint">Item weights do not include packaging. Add an estimate for a closer delivery figure.</p>
+                    </div>
+                </section>
+
+                <!-- Summary -->
+                <aside class="lg:col-span-2 lg:sticky lg:top-28" aria-labelledby="summary-heading">
+                    <div class="bg-white rounded-2xl shadow-lg border border-brand-green/10 overflow-hidden">
+                        <div class="bg-brand-green text-white px-6 py-4">
+                            <h2 id="summary-heading" class="text-xl font-serif font-bold" data-t="summary">Your order summary</h2>
+                        </div>
+                        <div class="p-6">
+                            <dl class="space-y-3 text-sm">
+                                <div class="flex justify-between"><dt class="text-gray-600" data-t="productWeight">Product weight</dt><dd id="product-weight" class="font-semibold">0 g</dd></div>
+                                <div class="flex justify-between"><dt class="text-gray-600" data-t="packWeight">Packaging weight</dt><dd id="pack-weight" class="font-semibold">0 g</dd></div>
+                                <div class="flex justify-between border-t border-gray-100 pt-3"><dt class="font-semibold text-brand-dark" data-t="totalWeight">Total parcel weight</dt><dd class="text-right"><span id="total-weight" class="font-bold text-brand-dark">0 g</span><span id="total-kg" class="block text-xs text-gray-500">0.000 kg</span></dd></div>
+                            </dl>
+
+                            <dl class="space-y-3 text-sm mt-6 pt-6 border-t border-gray-100">
+                                <div class="flex justify-between"><dt class="text-gray-600" data-t="itemsTotal">Items total</dt><dd id="items-total" class="font-semibold">Rs. 0</dd></div>
+                                <div class="flex justify-between"><dt class="text-gray-600"><span data-t="delivery">Estimated delivery</span><span id="tier" class="block text-xs text-gray-400"></span></dt><dd id="delivery-fee" class="font-semibold">Rs. 0</dd></div>
+                            </dl>
+
+                            <div class="mt-6 rounded-xl bg-brand-light p-4 flex items-end justify-between gap-4">
+                                <span class="text-sm font-semibold text-brand-dark" data-t="grandTotal">Estimated total</span>
+                                <strong id="grand-total" class="text-3xl font-serif text-brand-dark">Rs. 0</strong>
+                            </div>
+
+                            <a id="whatsapp-btn" href="https://wa.me/94740560413" target="_blank" rel="noopener"
+                                class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-full bg-brand-earth hover:bg-amber-700 text-white font-bold transition-colors">
+                                <span data-t="whatsapp">Send order on WhatsApp</span>
+                            </a>
+                            <button id="copy-btn" type="button"
+                                class="mt-3 w-full py-3 rounded-full border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-bold transition-colors">
+                                <span data-t="copy">Copy order summary</span>
+                            </button>
+                            <button id="reset-btn" type="button" class="mt-3 w-full py-2 text-sm text-gray-500 hover:text-brand-dark underline underline-offset-4" data-t="reset">Reset calculator</button>
+                            <p id="copy-status" class="mt-2 text-center text-sm text-brand-green min-h-[1.25rem]" role="status" aria-live="polite"></p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 leading-relaxed mt-4" data-t="notice">Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate only; the final charge depends on the actual packed weight and will be confirmed before payment.</p>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer" class="mt-auto"></div>
+    <script src="/components/footer.js"></script>
+    <script src="/script.js"></script>
+    <script>
+        (() => {
+            const WHATSAPP = '94740560413';
+            const DELIVERY_BASE = 424;      // up to 1 kg
+            const DELIVERY_PER_KG = 100;    // each additional kg or part of a kg
+            const SIZES = ['1.5 ft', '2.0 ft', '2.5 ft', '3.0 ft', '3.5 ft', '4.0 ft'];
+            // Prices (Rs) and product weights (g, without packaging) per size.
+            const PRODUCTS = {
+                extendable: {
+                    price: { '1.5 ft': 250, '2.0 ft': 300, '2.5 ft': 360, '3.0 ft': 420, '3.5 ft': 480, '4.0 ft': 540 },
+                    weight: { '1.5 ft': 160, '2.0 ft': 180, '2.5 ft': 225, '3.0 ft': 290, '3.5 ft': 330, '4.0 ft': 350 },
+                },
+                pvc: {
+                    price: { '1.5 ft': 300, '2.0 ft': 360, '2.5 ft': 420, '3.0 ft': 480, '3.5 ft': 540, '4.0 ft': 600 },
+                    weight: { '1.5 ft': 118, '2.0 ft': 164, '2.5 ft': 212, '3.0 ft': 254, '3.5 ft': 304, '4.0 ft': 310 },
+                },
+            };
+            const T = {
+                en: {
+                    title: 'Order & Delivery Calculator', subtitle: 'Build your order to estimate the product total, parcel weight and delivery charge.',
+                    yourItems: 'Your items', add: 'Add another item', item: 'Item', remove: 'Remove', type: 'Product type', size: 'Size', qty: 'Quantity',
+                    each: 'Each', line: 'Line total', weight: 'Weight',
+                    pack: 'Packaging weight (grams)', packHint: 'Item weights do not include packaging. Add an estimate for a closer delivery figure.',
+                    summary: 'Your order summary', productWeight: 'Product weight', packWeight: 'Packaging weight', totalWeight: 'Total parcel weight',
+                    itemsTotal: 'Items total', delivery: 'Estimated delivery', grandTotal: 'Estimated total',
+                    tier1: 'Up to 1 kg', tier2: 'Includes additional kg charge',
+                    whatsapp: 'Send order on WhatsApp', copy: 'Copy order summary', reset: 'Reset calculator',
+                    copied: 'Summary copied. Paste it into WhatsApp or Messenger.', copyFail: 'Could not copy automatically. Please select and copy the text.',
+                    notice: 'Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate only; the final charge depends on the actual packed weight and will be confirmed before payment.',
+                    names: { extendable: 'Extendable Coir Pole (Wood + PVC)', pvc: 'Coir Pole with PVC Pipe' },
+                    msgTitle: 'Hi Amazing Decora, I would like to order:', msgPack: 'Packaging', msgWeight: 'Total weight', msgItems: 'Items total', msgDelivery: 'Estimated delivery', msgTotal: 'Estimated total', msgNote: 'Estimate; final delivery charge depends on packed weight.',
+                },
+                si: {
+                    title: 'ඇණවුම් සහ Delivery ගණකය', subtitle: 'ඔබගේ ඇණවුම සකසා භාණ්ඩ මුදල, පාර්සල් බර සහ Delivery ගාස්තුව ඇස්තමේන්තු කරන්න.',
+                    yourItems: 'ඔබගේ භාණ්ඩ', add: 'තවත් භාණ්ඩයක් එක් කරන්න', item: 'භාණ්ඩය', remove: 'ඉවත් කරන්න', type: 'භාණ්ඩ වර්ගය', size: 'ප්‍රමාණය', qty: 'ගණන',
+                    each: 'එකක්', line: 'එකතුව', weight: 'බර',
+                    pack: 'ඇසුරුම් බර (ග්‍රෑම්)', packHint: 'භාණ්ඩ බරට ඇසුරුම් බර ඇතුළත් නැත. වඩා නිවැරදි ගණනයක් සඳහා ඇස්තමේන්තුවක් එක් කරන්න.',
+                    summary: 'ඔබගේ ඇණවුම් සාරාංශය', productWeight: 'භාණ්ඩ බර', packWeight: 'ඇසුරුම් බර', totalWeight: 'මුළු පාර්සල් බර',
+                    itemsTotal: 'භාණ්ඩ මුදල', delivery: 'ඇස්තමේන්තු Delivery ගාස්තුව', grandTotal: 'ඇස්තමේන්තු මුළු මුදල',
+                    tier1: '1 kg දක්වා', tier2: 'අමතර kg ගාස්තුව ඇතුළත්',
+                    whatsapp: 'WhatsApp මඟින් ඇණවුම යවන්න', copy: 'සාරාංශය Copy කරන්න', reset: 'නැවත සකසන්න',
+                    copied: 'සාරාංශය Copy විය. WhatsApp හෝ Messenger වෙත Paste කරන්න.', copyFail: 'ස්වයංක්‍රීයව Copy කළ නොහැකි විය.',
+                    notice: 'Delivery: 1 kg දක්වා Rs. 424; ඊට වැඩි සෑම kg එකකටම හෝ කොටසකට Rs. 100 බැගින්. මෙය ඇස්තමේන්තුවක් පමණි; අවසන් ගාස්තුව ඇසුරුම් කළ බර අනුව ගෙවීමට පෙර තහවුරු කෙරේ.',
+                    names: { extendable: 'දිගු කළ හැකි කොහු ආධාරක (Wood + PVC)', pvc: 'PVC බටය සහිත කොහු ආධාරක' },
+                    msgTitle: 'ආයුබෝවන් Amazing Decora, මට ඇණවුම් කිරීමට අවශ්‍යයි:', msgPack: 'ඇසුරුම්', msgWeight: 'මුළු බර', msgItems: 'භාණ්ඩ මුදල', msgDelivery: 'Delivery ගාස්තුව', msgTotal: 'මුළු මුදල', msgNote: 'ඇස්තමේන්තුවකි; අවසන් Delivery ගාස්තුව ඇසුරුම් කළ බර අනුව වෙනස් විය හැක.',
+                },
+                ta: {
+                    title: 'ஆர்டர் & டெலிவரி கணிப்பான்', subtitle: 'உங்கள் ஆர்டரை உருவாக்கி பொருள் தொகை, பார்சல் எடை மற்றும் டெலிவரி கட்டணத்தை கணிக்கவும்.',
+                    yourItems: 'உங்கள் பொருட்கள்', add: 'மேலும் ஒரு பொருளைச் சேர்க்கவும்', item: 'பொருள்', remove: 'நீக்கு', type: 'பொருள் வகை', size: 'அளவு', qty: 'எண்ணிக்கை',
+                    each: 'ஒன்றுக்கு', line: 'மொத்தம்', weight: 'எடை',
+                    pack: 'பொதி எடை (கிராம்)', packHint: 'பொருள் எடையில் பொதி எடை சேர்க்கப்படவில்லை. துல்லியமான கணிப்புக்கு மதிப்பீட்டைச் சேர்க்கவும்.',
+                    summary: 'உங்கள் ஆர்டர் சுருக்கம்', productWeight: 'பொருட்களின் எடை', packWeight: 'பொதி எடை', totalWeight: 'மொத்த பார்சல் எடை',
+                    itemsTotal: 'பொருட்களின் தொகை', delivery: 'கணிக்கப்பட்ட டெலிவரி கட்டணம்', grandTotal: 'கணிக்கப்பட்ட மொத்தம்',
+                    tier1: '1 kg வரை', tier2: 'கூடுதல் kg கட்டணம் சேர்க்கப்பட்டுள்ளது',
+                    whatsapp: 'WhatsApp மூலம் ஆர்டர் அனுப்பவும்', copy: 'சுருக்கத்தை நகலெடுக்கவும்', reset: 'மீட்டமை',
+                    copied: 'சுருக்கம் நகலெடுக்கப்பட்டது. WhatsApp அல்லது Messenger இல் ஒட்டவும்.', copyFail: 'தானாக நகலெடுக்க முடியவில்லை.',
+                    notice: 'டெலிவரி: 1 kg வரை Rs. 424; கூடுதல் ஒவ்வொரு kg அல்லது அதன் பகுதிக்கும் Rs. 100. இது ஒரு மதிப்பீடு மட்டுமே; இறுதி கட்டணம் பொதி செய்யப்பட்ட எடையைப் பொறுத்து பணம் செலுத்துவதற்கு முன் உறுதிப்படுத்தப்படும்.',
+                    names: { extendable: 'Extendable Coir Pole (Wood + PVC)', pvc: 'Coir Pole with PVC Pipe' },
+                    msgTitle: 'வணக்கம் Amazing Decora, நான் ஆர்டர் செய்ய விரும்புகிறேன்:', msgPack: 'பொதி', msgWeight: 'மொத்த எடை', msgItems: 'பொருட்களின் தொகை', msgDelivery: 'டெலிவரி கட்டணம்', msgTotal: 'மொத்தம்', msgNote: 'மதிப்பீடு; இறுதி டெலிவரி கட்டணம் பொதி எடையைப் பொறுத்தது.',
+                },
+            };
+
+            let entries = [];
+            let nextId = 1;
+            let lang = 'en';
+            const $ = (id) => document.getElementById(id);
+            const t = () => T[lang];
+            const rs = (n) => 'Rs. ' + n.toLocaleString('en-LK');
+            const g = (n) => n.toLocaleString('en-LK') + ' g';
+            const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+            const deliveryFee = (grams) => {
+                if (grams <= 0) return 0;
+                if (grams <= 1000) return DELIVERY_BASE;
+                return DELIVERY_BASE + Math.ceil((grams - 1000) / 1000) * DELIVERY_PER_KG;
+            };
+
+            const totals = () => {
+                const lines = entries.filter((e) => e.qty > 0).map((e) => {
+                    const p = PRODUCTS[e.type];
+                    return { ...e, unit: p.price[e.size], unitWeight: p.weight[e.size], amount: p.price[e.size] * e.qty, grams: p.weight[e.size] * e.qty };
+                });
+                const product = lines.reduce((s, l) => s + l.grams, 0);
+                const itemsTotal = lines.reduce((s, l) => s + l.amount, 0);
+                const pack = product > 0 ? Math.max(0, Math.round(Number($('pack').value) || 0)) : 0;
+                const weight = product + pack;
+                const fee = deliveryFee(weight);
+                return { lines, product, pack, weight, itemsTotal, fee, grand: itemsTotal + fee };
+            };
+
+            const selectClass = 'w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40';
+
+            function render() {
+                const host = $('items');
+                host.innerHTML = entries.map((e, i) => {
+                    const p = PRODUCTS[e.type];
+                    return `<div class="bg-white rounded-2xl p-5 border border-brand-green/10 shadow-sm" data-id="${e.id}">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="font-bold text-brand-dark">${esc(t().item)} ${i + 1}</span>
+                            ${entries.length > 1 ? `<button type="button" data-action="remove" class="text-sm px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100">${esc(t().remove)}</button>` : ''}
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="block sm:col-span-2"><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().type)}</span>
+                                <select data-field="type" class="${selectClass}">
+                                    ${Object.keys(PRODUCTS).map((k) => `<option value="${k}"${k === e.type ? ' selected' : ''}>${esc(t().names[k])}</option>`).join('')}
+                                </select></label>
+                            <label class="block"><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().size)}</span>
+                                <select data-field="size" class="${selectClass}">
+                                    ${SIZES.map((s) => `<option value="${s}"${s === e.size ? ' selected' : ''}>${s} – ${rs(p.price[s])}</option>`).join('')}
+                                </select></label>
+                            <div><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().qty)}</span>
+                                <div class="flex items-center gap-2">
+                                    <button type="button" data-action="dec" aria-label="−1" class="w-11 h-11 shrink-0 rounded-xl border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10">−</button>
+                                    <input type="number" min="0" inputmode="numeric" data-field="qty" value="${e.qty}" aria-label="${esc(t().qty)}" class="w-full min-w-0 h-11 text-center rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40">
+                                    <button type="button" data-action="inc" aria-label="+1" class="w-11 h-11 shrink-0 rounded-xl border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10">+</button>
+                                </div></div>
+                        </div>
+                        <p class="mt-4 pt-3 border-t border-gray-100 text-sm text-gray-500 flex flex-wrap justify-between gap-2" data-line>
+                            ${lineText(e)}
+                        </p>
+                    </div>`;
+                }).join('');
+                calc();
+            }
+
+            function lineText(e) {
+                const p = PRODUCTS[e.type];
+                return `<span>${esc(t().each)}: ${rs(p.price[e.size])} · ${g(p.weight[e.size])}</span><span class="font-semibold text-brand-dark">${esc(t().line)}: ${rs(p.price[e.size] * e.qty)} · ${g(p.weight[e.size] * e.qty)}</span>`;
+            }
+
+            function calc() {
+                const r = totals();
+                $('product-weight').textContent = g(r.product);
+                $('pack-weight').textContent = g(r.pack);
+                $('total-weight').textContent = g(r.weight);
+                $('total-kg').textContent = (r.weight / 1000).toFixed(3) + ' kg';
+                $('items-total').textContent = rs(r.itemsTotal);
+                $('delivery-fee').textContent = rs(r.fee);
+                $('tier').textContent = r.weight === 0 ? '' : r.weight <= 1000 ? t().tier1 : t().tier2;
+                $('grand-total').textContent = rs(r.grand);
+                $('whatsapp-btn').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(summaryText(r))}`;
+            }
+
+            function summaryText(r = totals()) {
+                const L = t();
+                const lines = r.lines.map((l) => `• ${L.names[l.type]} ${l.size} × ${l.qty} = ${rs(l.amount)} (${g(l.grams)})`);
+                return [
+                    L.msgTitle, ...lines, '',
+                    `${L.msgPack}: ${g(r.pack)}`,
+                    `${L.msgWeight}: ${g(r.weight)} (${(r.weight / 1000).toFixed(3)} kg)`,
+                    `${L.msgItems}: ${rs(r.itemsTotal)}`,
+                    `${L.msgDelivery}: ${rs(r.fee)}`,
+                    `${L.msgTotal}: ${rs(r.grand)}`, '',
+                    L.msgNote,
+                ].join('\n');
+            }
+
+            function setLang(value) {
+                lang = T[value] ? value : 'en';
+                document.documentElement.lang = lang;
+                document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t()[el.dataset.t]; });
+                $('copy-status').textContent = '';
+                render();
+            }
+
+            const addItem = (type = 'extendable', size = '1.5 ft', qty = 1) => { entries.push({ id: nextId++, type, size, qty }); render(); };
+            const entryFor = (el) => entries.find((e) => e.id === Number(el.closest('[data-id]')?.dataset.id));
+
+            $('items').addEventListener('click', (ev) => {
+                const btn = ev.target.closest('[data-action]');
+                if (!btn) return;
+                const e = entryFor(btn);
+                if (!e) return;
+                if (btn.dataset.action === 'remove') entries = entries.filter((x) => x !== e);
+                else e.qty = Math.max(0, e.qty + (btn.dataset.action === 'inc' ? 1 : -1));
+                render();
+            });
+            $('items').addEventListener('change', (ev) => {
+                const field = ev.target.dataset.field;
+                const e = field && entryFor(ev.target);
+                if (!e) return;
+                if (field === 'qty') e.qty = Math.max(0, parseInt(ev.target.value, 10) || 0);
+                else e[field] = ev.target.value;
+                render();
+            });
+            $('items').addEventListener('input', (ev) => {
+                if (ev.target.dataset.field !== 'qty') return;
+                const e = entryFor(ev.target);
+                if (!e) return;
+                e.qty = Math.max(0, parseInt(ev.target.value, 10) || 0);
+                ev.target.closest('[data-id]').querySelector('[data-line]').innerHTML = lineText(e);
+                calc();
+            });
+            $('pack').addEventListener('input', calc);
+            $('add-item').addEventListener('click', () => addItem());
+            $('lang').addEventListener('change', (ev) => setLang(ev.target.value));
+            $('reset-btn').addEventListener('click', () => {
+                entries = []; nextId = 1; $('pack').value = 0; $('copy-status').textContent = ''; addItem();
+            });
+            $('copy-btn').addEventListener('click', async () => {
+                const text = summaryText();
+                try {
+                    await navigator.clipboard.writeText(text);
+                    $('copy-status').textContent = t().copied;
+                } catch {
+                    $('copy-status').textContent = t().copyFail;
+                    window.prompt(t().copy, text);
+                }
+            });
+
+            addItem();
+        })();
+    </script>
+</body>
+
+</html>
