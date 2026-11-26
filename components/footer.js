@@ -27,6 +27,7 @@
                         <ul class="space-y-3 text-gray-300 mb-6">
                             <li><a href="${pageUrl('pages/about.html')}" class="hover:text-white transition-colors">About Us</a></li>
                             <li><a href="${pageUrl('pages/contact.html')}" class="hover:text-white transition-colors">Contact</a></li>
+                            <li><a href="${pageUrl('pages/delivery-calculator.html')}" class="hover:text-white transition-colors">Delivery Calculator</a></li>
                         </ul>
                         <div class="flex gap-4" aria-label="Social media"><a href="https://www.facebook.com/share/1Bsgxz1DbL/?mibextid=wwXIfr" target="_blank"
                             rel="noopener noreferrer"

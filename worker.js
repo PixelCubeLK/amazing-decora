@@ -1,5 +1,5 @@
 const pages = new Set(['products', 'about', 'contact', 'privacy-policy',
-  'terms-and-conditions', 'shipping-and-delivery', 'returns-and-refunds']);
+  'terms-and-conditions', 'shipping-and-delivery', 'returns-and-refunds', 'delivery-calculator']);
 
 export default {
   async fetch(request, env) {
