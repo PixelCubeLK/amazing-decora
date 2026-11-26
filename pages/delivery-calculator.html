@@ -33,86 +33,123 @@
     <!-- Compiled Tailwind CSS -->
     <link rel="stylesheet" href="/styles/site.css">
     <link rel="stylesheet" href="/animations.css">
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+        .tier-fill { transition: width .35s cubic-bezier(.22, 1, .36, 1); }
+        .bump { animation: bump .3s ease; }
+        @keyframes bump { 50% { transform: scale(1.06); } }
+        @media (prefers-reduced-motion: reduce) { .tier-fill { transition: none; } .bump { animation: none; } }
+    </style>
 </head>
 
 <body class="bg-brand-light text-gray-800 font-sans antialiased flex flex-col min-h-screen">
     <div id="site-header"></div>
     <script src="/components/header.js"></script>
 
-    <header class="pt-32 pb-16 px-6 bg-brand-dark text-white text-center">
+    <header class="pt-32 pb-14 px-6 bg-brand-dark text-white text-center">
+        <p class="text-amber-100 uppercase tracking-widest text-xs font-bold mb-3" data-t="eyebrow">Plan your order</p>
         <h1 class="text-3xl md:text-5xl font-serif font-bold mb-4" data-t="title">Order &amp; Delivery Calculator</h1>
-        <p class="text-gray-300 max-w-2xl mx-auto text-lg" data-t="subtitle">Build your order to estimate the product total, parcel weight and delivery charge.</p>
+        <p class="text-gray-300 max-w-2xl mx-auto text-lg" data-t="subtitle">Pick your poles to see the total price and delivery charge, then send the order to us on WhatsApp.</p>
+        <div class="mt-8 inline-flex rounded-full bg-white/10 p-1 border border-white/15" role="group" aria-label="Language / භාෂාව / மொழி">
+            <button type="button" data-lang="en" class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors">English</button>
+            <button type="button" data-lang="si" class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors">සිංහල</button>
+            <button type="button" data-lang="ta" class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors">தமிழ்</button>
+        </div>
     </header>
 
-    <main class="flex-grow py-12 md:py-16 px-4 sm:px-6">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-wrap items-center justify-end gap-3 mb-6">
-                <label for="lang" class="text-sm font-medium text-brand-dark">Language / භාෂාව / மொழி</label>
-                <select id="lang" class="px-3 py-2 rounded-lg border border-brand-green/20 bg-white text-brand-dark focus:outline-none focus:ring-2 focus:ring-brand-green/40">
-                    <option value="en">English</option>
-                    <option value="si">සිංහල</option>
-                    <option value="ta">தமிழ்</option>
-                </select>
-            </div>
+    <main class="flex-grow py-10 md:py-14 px-4 sm:px-6 pb-32 lg:pb-14">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Order builder -->
+            <section class="lg:col-span-7" aria-labelledby="items-heading">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-full bg-brand-green text-white text-sm font-bold flex items-center justify-center shrink-0">1</span>
+                    <h2 id="items-heading" class="text-xl sm:text-2xl font-serif font-bold text-brand-dark" data-t="step1">Choose your poles</h2>
+                </div>
+                <div id="items" class="space-y-4"></div>
+                <div id="empty" class="hidden bg-white rounded-2xl p-8 text-center text-gray-500 border border-dashed border-gray-300" data-t="empty">No poles added yet.</div>
+                <button id="add-item" type="button"
+                    class="mt-4 w-full py-4 rounded-2xl border-2 border-dashed border-brand-green/30 text-brand-green font-semibold hover:bg-white hover:border-brand-green/60 transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+                    <span data-t="add">Add another pole</span>
+                </button>
 
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-                <!-- Order builder -->
-                <section class="lg:col-span-3" aria-labelledby="items-heading">
-                    <h2 id="items-heading" class="text-2xl font-serif font-bold text-brand-dark mb-4" data-t="yourItems">Your items</h2>
-                    <div id="items" class="space-y-4"></div>
-                    <button id="add-item" type="button"
-                        class="mt-4 w-full py-3 rounded-xl border-2 border-dashed border-brand-green/30 text-brand-green font-semibold hover:bg-white hover:border-brand-green/60 transition-colors">
-                        + <span data-t="add">Add another item</span>
-                    </button>
-
-                    <div class="mt-6 bg-white rounded-2xl p-5 border border-brand-green/10">
-                        <label for="pack" class="block text-sm font-semibold text-brand-dark mb-2" data-t="pack">Packaging weight (grams)</label>
+                <div class="flex items-center gap-3 mt-10 mb-4">
+                    <span class="w-8 h-8 rounded-full bg-brand-green text-white text-sm font-bold flex items-center justify-center shrink-0">2</span>
+                    <h2 class="text-xl sm:text-2xl font-serif font-bold text-brand-dark" data-t="step2">Packaging <span class="text-base font-sans font-normal text-gray-500">(optional)</span></h2>
+                </div>
+                <div class="bg-white rounded-2xl p-5 border border-brand-green/10">
+                    <label for="pack" class="block text-sm font-semibold text-brand-dark mb-2" data-t="pack">Estimated packaging weight</label>
+                    <div class="flex items-center gap-2 max-w-xs">
                         <input id="pack" type="number" min="0" step="10" value="0" inputmode="numeric"
                             class="w-full px-4 py-3 rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40">
-                        <p class="text-xs text-gray-500 mt-2" data-t="packHint">Item weights do not include packaging. Add an estimate for a closer delivery figure.</p>
+                        <span class="text-gray-500 font-medium">g</span>
                     </div>
-                </section>
+                    <p class="text-sm text-gray-500 mt-3 leading-relaxed" data-t="packHint">Pole weights do not include packaging. Leave this at 0 if you are not sure; we will confirm the final charge.</p>
+                </div>
+            </section>
 
-                <!-- Summary -->
-                <aside class="lg:col-span-2 lg:sticky lg:top-28" aria-labelledby="summary-heading">
-                    <div class="bg-white rounded-2xl shadow-lg border border-brand-green/10 overflow-hidden">
-                        <div class="bg-brand-green text-white px-6 py-4">
-                            <h2 id="summary-heading" class="text-xl font-serif font-bold" data-t="summary">Your order summary</h2>
+            <!-- Summary -->
+            <aside id="summary" class="lg:col-span-5 lg:sticky lg:top-28 scroll-mt-28" aria-labelledby="summary-heading">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-8 rounded-full bg-brand-green text-white text-sm font-bold flex items-center justify-center shrink-0">3</span>
+                    <h2 id="summary-heading" class="text-xl sm:text-2xl font-serif font-bold text-brand-dark" data-t="summary">Review &amp; send</h2>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg border border-brand-green/10 overflow-hidden">
+                    <ul id="summary-lines" class="divide-y divide-gray-100 px-6"></ul>
+
+                    <div class="px-6 py-5 bg-brand-light/60 border-y border-gray-100">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-brand-dark" data-t="totalWeight">Parcel weight</span>
+                            <span><b id="total-weight" class="text-brand-dark">0 g</b> <span id="weight-detail" class="text-gray-500"></span></span>
                         </div>
-                        <div class="p-6">
-                            <dl class="space-y-3 text-sm">
-                                <div class="flex justify-between"><dt class="text-gray-600" data-t="productWeight">Product weight</dt><dd id="product-weight" class="font-semibold">0 g</dd></div>
-                                <div class="flex justify-between"><dt class="text-gray-600" data-t="packWeight">Packaging weight</dt><dd id="pack-weight" class="font-semibold">0 g</dd></div>
-                                <div class="flex justify-between border-t border-gray-100 pt-3"><dt class="font-semibold text-brand-dark" data-t="totalWeight">Total parcel weight</dt><dd class="text-right"><span id="total-weight" class="font-bold text-brand-dark">0 g</span><span id="total-kg" class="block text-xs text-gray-500">0.000 kg</span></dd></div>
-                            </dl>
+                        <div class="h-2 rounded-full bg-gray-200 overflow-hidden" aria-hidden="true">
+                            <div id="tier-fill" class="tier-fill h-full rounded-full bg-brand-green" style="width:0%"></div>
+                        </div>
+                        <p id="tier-hint" class="text-xs text-gray-500 mt-2 min-h-[1rem]"></p>
+                    </div>
 
-                            <dl class="space-y-3 text-sm mt-6 pt-6 border-t border-gray-100">
-                                <div class="flex justify-between"><dt class="text-gray-600" data-t="itemsTotal">Items total</dt><dd id="items-total" class="font-semibold">Rs. 0</dd></div>
-                                <div class="flex justify-between"><dt class="text-gray-600"><span data-t="delivery">Estimated delivery</span><span id="tier" class="block text-xs text-gray-400"></span></dt><dd id="delivery-fee" class="font-semibold">Rs. 0</dd></div>
-                            </dl>
+                    <dl class="px-6 pt-5 space-y-2 text-sm">
+                        <div class="flex justify-between"><dt class="text-gray-600" data-t="itemsTotal">Poles</dt><dd id="items-total" class="font-semibold">Rs. 0</dd></div>
+                        <div class="flex justify-between"><dt class="text-gray-600" data-t="delivery">Delivery (estimate)</dt><dd id="delivery-fee" class="font-semibold">Rs. 0</dd></div>
+                    </dl>
+                    <div class="mx-6 mt-4 pt-4 border-t border-gray-200 flex items-end justify-between gap-4">
+                        <span class="font-semibold text-brand-dark" data-t="grandTotal">Estimated total</span>
+                        <strong id="grand-total" class="text-3xl font-serif text-brand-dark inline-block">Rs. 0</strong>
+                    </div>
 
-                            <div class="mt-6 rounded-xl bg-brand-light p-4 flex items-end justify-between gap-4">
-                                <span class="text-sm font-semibold text-brand-dark" data-t="grandTotal">Estimated total</span>
-                                <strong id="grand-total" class="text-3xl font-serif text-brand-dark">Rs. 0</strong>
-                            </div>
-
-                            <a id="whatsapp-btn" href="https://wa.me/94740560413" target="_blank" rel="noopener"
-                                class="mt-6 flex items-center justify-center gap-2 w-full py-3 rounded-full bg-brand-earth hover:bg-amber-700 text-white font-bold transition-colors">
-                                <span data-t="whatsapp">Send order on WhatsApp</span>
-                            </a>
+                    <div class="p-6 space-y-3">
+                        <a id="whatsapp-btn" href="https://wa.me/94740560413" target="_blank" rel="noopener"
+                            class="flex items-center justify-center gap-2 w-full py-3.5 rounded-full bg-[#1f9e55] hover:bg-[#178a48] text-white font-bold shadow-md transition-colors aria-disabled:opacity-40 aria-disabled:pointer-events-none">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.8 1 3.8 1.5 5.8 1.5 6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.6-8.4z"/></svg>
+                            <span data-t="whatsapp">Send order on WhatsApp</span>
+                        </a>
+                        <div class="grid grid-cols-2 gap-3">
                             <button id="copy-btn" type="button"
-                                class="mt-3 w-full py-3 rounded-full border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-bold transition-colors">
-                                <span data-t="copy">Copy order summary</span>
+                                class="py-2.5 rounded-full border-2 border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-semibold text-sm transition-colors disabled:opacity-40 disabled:pointer-events-none">
+                                <span data-t="copy">Copy summary</span>
                             </button>
-                            <button id="reset-btn" type="button" class="mt-3 w-full py-2 text-sm text-gray-500 hover:text-brand-dark underline underline-offset-4" data-t="reset">Reset calculator</button>
-                            <p id="copy-status" class="mt-2 text-center text-sm text-brand-green min-h-[1.25rem]" role="status" aria-live="polite"></p>
+                            <button id="reset-btn" type="button" class="py-2.5 rounded-full border-2 border-gray-200 text-gray-600 hover:border-gray-400 font-semibold text-sm transition-colors" data-t="reset">Start over</button>
                         </div>
+                        <p id="copy-status" class="text-center text-sm text-brand-green min-h-[1.25rem]" role="status" aria-live="polite"></p>
                     </div>
-                    <p class="text-xs text-gray-500 leading-relaxed mt-4" data-t="notice">Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate only; the final charge depends on the actual packed weight and will be confirmed before payment.</p>
-                </aside>
-            </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mt-4 px-1" data-t="notice">Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.</p>
+            </aside>
         </div>
     </main>
+
+    <!-- Mobile total bar -->
+    <div id="mobile-bar" class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-gray-200 shadow-[0_-6px_20px_rgba(15,41,30,0.08)] px-4 py-3 transition-transform duration-300">
+        <div class="max-w-xl mx-auto flex items-center justify-between gap-4">
+            <div class="min-w-0">
+                <p class="text-xs text-gray-500 truncate" data-t="grandTotal">Estimated total</p>
+                <p class="whitespace-nowrap"><span id="bar-total" class="text-xl font-serif font-bold text-brand-dark inline-block">Rs. 0</span> <span id="bar-count" class="text-xs text-gray-500"></span></p>
+            </div>
+            <a href="#summary" class="shrink-0 px-5 py-3 rounded-full bg-brand-earth hover:bg-amber-700 text-white font-bold text-sm" data-t="review">Review order</a>
+        </div>
+    </div>
 
     <div id="site-footer" class="mt-auto"></div>
     <script src="/components/footer.js"></script>
@@ -136,57 +173,65 @@
             };
             const T = {
                 en: {
-                    title: 'Order & Delivery Calculator', subtitle: 'Build your order to estimate the product total, parcel weight and delivery charge.',
-                    yourItems: 'Your items', add: 'Add another item', item: 'Item', remove: 'Remove', type: 'Product type', size: 'Size', qty: 'Quantity',
-                    each: 'Each', line: 'Line total', weight: 'Weight',
-                    pack: 'Packaging weight (grams)', packHint: 'Item weights do not include packaging. Add an estimate for a closer delivery figure.',
-                    summary: 'Your order summary', productWeight: 'Product weight', packWeight: 'Packaging weight', totalWeight: 'Total parcel weight',
-                    itemsTotal: 'Items total', delivery: 'Estimated delivery', grandTotal: 'Estimated total',
-                    tier1: 'Up to 1 kg', tier2: 'Includes additional kg charge',
-                    whatsapp: 'Send order on WhatsApp', copy: 'Copy order summary', reset: 'Reset calculator',
-                    copied: 'Summary copied. Paste it into WhatsApp or Messenger.', copyFail: 'Could not copy automatically. Please select and copy the text.',
-                    notice: 'Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate only; the final charge depends on the actual packed weight and will be confirmed before payment.',
-                    names: { extendable: 'Extendable Coir Pole (Wood + PVC)', pvc: 'Coir Pole with PVC Pipe' },
-                    msgTitle: 'Hi Amazing Decora, I would like to order:', msgPack: 'Packaging', msgWeight: 'Total weight', msgItems: 'Items total', msgDelivery: 'Estimated delivery', msgTotal: 'Estimated total', msgNote: 'Estimate; final delivery charge depends on packed weight.',
+                    eyebrow: 'Plan your order', title: 'Order & Delivery Calculator', subtitle: 'Pick your poles to see the total price and delivery charge, then send the order to us on WhatsApp.',
+                    step1: 'Choose your poles', step2: 'Packaging (optional)', summary: 'Review & send',
+                    add: 'Add another pole', empty: 'No poles added yet.', pole: 'Pole', remove: 'Remove', type: 'Type', size: 'Height', qty: 'Quantity',
+                    pack: 'Estimated packaging weight', packHint: 'Pole weights do not include packaging. Leave this at 0 if you are not sure; we will confirm the final charge.',
+                    totalWeight: 'Parcel weight', itemsTotal: 'Poles', delivery: 'Delivery (estimate)', grandTotal: 'Estimated total',
+                    hintEmpty: 'Add a pole to see the delivery charge.', hintRoom: (g) => `${g} more fits before the next Rs. 100 delivery step.`,
+                    noItems: 'No poles selected', count: (n) => `${n} pole${n === 1 ? '' : 's'}`, review: 'Review order',
+                    whatsapp: 'Send order on WhatsApp', copy: 'Copy summary', reset: 'Start over',
+                    copied: 'Copied. Paste it into WhatsApp or Messenger.', copyFail: 'Could not copy automatically. Please copy the text manually.',
+                    notice: 'Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.',
+                    names: { extendable: 'Extendable Coir Pole', pvc: 'Coir Pole with PVC Pipe' },
+                    subs: { extendable: 'Wood + PVC, adjustable', pvc: 'PVC pipe core' },
+                    msgTitle: 'Hi Amazing Decora, I would like to order:', msgPack: 'Packaging', msgWeight: 'Total weight', msgItems: 'Poles', msgDelivery: 'Estimated delivery', msgTotal: 'Estimated total', msgNote: 'Estimate; final delivery charge depends on packed weight.',
                 },
                 si: {
-                    title: 'ඇණවුම් සහ Delivery ගණකය', subtitle: 'ඔබගේ ඇණවුම සකසා භාණ්ඩ මුදල, පාර්සල් බර සහ Delivery ගාස්තුව ඇස්තමේන්තු කරන්න.',
-                    yourItems: 'ඔබගේ භාණ්ඩ', add: 'තවත් භාණ්ඩයක් එක් කරන්න', item: 'භාණ්ඩය', remove: 'ඉවත් කරන්න', type: 'භාණ්ඩ වර්ගය', size: 'ප්‍රමාණය', qty: 'ගණන',
-                    each: 'එකක්', line: 'එකතුව', weight: 'බර',
-                    pack: 'ඇසුරුම් බර (ග්‍රෑම්)', packHint: 'භාණ්ඩ බරට ඇසුරුම් බර ඇතුළත් නැත. වඩා නිවැරදි ගණනයක් සඳහා ඇස්තමේන්තුවක් එක් කරන්න.',
-                    summary: 'ඔබගේ ඇණවුම් සාරාංශය', productWeight: 'භාණ්ඩ බර', packWeight: 'ඇසුරුම් බර', totalWeight: 'මුළු පාර්සල් බර',
-                    itemsTotal: 'භාණ්ඩ මුදල', delivery: 'ඇස්තමේන්තු Delivery ගාස්තුව', grandTotal: 'ඇස්තමේන්තු මුළු මුදල',
-                    tier1: '1 kg දක්වා', tier2: 'අමතර kg ගාස්තුව ඇතුළත්',
-                    whatsapp: 'WhatsApp මඟින් ඇණවුම යවන්න', copy: 'සාරාංශය Copy කරන්න', reset: 'නැවත සකසන්න',
-                    copied: 'සාරාංශය Copy විය. WhatsApp හෝ Messenger වෙත Paste කරන්න.', copyFail: 'ස්වයංක්‍රීයව Copy කළ නොහැකි විය.',
-                    notice: 'Delivery: 1 kg දක්වා Rs. 424; ඊට වැඩි සෑම kg එකකටම හෝ කොටසකට Rs. 100 බැගින්. මෙය ඇස්තමේන්තුවක් පමණි; අවසන් ගාස්තුව ඇසුරුම් කළ බර අනුව ගෙවීමට පෙර තහවුරු කෙරේ.',
-                    names: { extendable: 'දිගු කළ හැකි කොහු ආධාරක (Wood + PVC)', pvc: 'PVC බටය සහිත කොහු ආධාරක' },
-                    msgTitle: 'ආයුබෝවන් Amazing Decora, මට ඇණවුම් කිරීමට අවශ්‍යයි:', msgPack: 'ඇසුරුම්', msgWeight: 'මුළු බර', msgItems: 'භාණ්ඩ මුදල', msgDelivery: 'Delivery ගාස්තුව', msgTotal: 'මුළු මුදල', msgNote: 'ඇස්තමේන්තුවකි; අවසන් Delivery ගාස්තුව ඇසුරුම් කළ බර අනුව වෙනස් විය හැක.',
+                    eyebrow: 'ඔබගේ ඇණවුම සකසන්න', title: 'ඇණවුම් සහ Delivery ගණකය', subtitle: 'ආධාරක තෝරා මුළු මුදල සහ Delivery ගාස්තුව බලන්න, ඉන්පසු WhatsApp මඟින් ඇණවුම අපට යවන්න.',
+                    step1: 'ආධාරක තෝරන්න', step2: 'ඇසුරුම් (අත්‍යවශ්‍ය නැත)', summary: 'පරීක්ෂා කර යවන්න',
+                    add: 'තවත් ආධාරකයක් එක් කරන්න', empty: 'තවම ආධාරක එක් කර නැත.', pole: 'ආධාරකය', remove: 'ඉවත් කරන්න', type: 'වර්ගය', size: 'උස', qty: 'ගණන',
+                    pack: 'ඇස්තමේන්තු ඇසුරුම් බර', packHint: 'ආධාරක බරට ඇසුරුම් බර ඇතුළත් නැත. විශ්වාස නැත්නම් 0 ලෙස තබන්න; අවසන් ගාස්තුව අපි තහවුරු කරමු.',
+                    totalWeight: 'පාර්සල් බර', itemsTotal: 'ආධාරක', delivery: 'Delivery (ඇස්තමේන්තු)', grandTotal: 'ඇස්තමේන්තු මුළු මුදල',
+                    hintEmpty: 'Delivery ගාස්තුව බැලීමට ආධාරකයක් එක් කරන්න.', hintRoom: (g) => `ඊළඟ Rs. 100 ගාස්තුවට පෙර තවත් ${g} ක් එක් කළ හැක.`,
+                    noItems: 'ආධාරක තෝරා නැත', count: (n) => `ආධාරක ${n}`, review: 'ඇණවුම බලන්න',
+                    whatsapp: 'WhatsApp මඟින් ඇණවුම යවන්න', copy: 'Copy කරන්න', reset: 'නැවත අරඹන්න',
+                    copied: 'Copy විය. WhatsApp හෝ Messenger වෙත Paste කරන්න.', copyFail: 'ස්වයංක්‍රීයව Copy කළ නොහැකි විය.',
+                    notice: 'Delivery: 1 kg දක්වා Rs. 424; ඊට වැඩි සෑම kg එකකටම හෝ කොටසකට Rs. 100 බැගින්. මෙය ඇස්තමේන්තුවකි; ගෙවීමට පෙර ඇසුරුම් කළ බර අනුව අවසන් ගාස්තුව තහවුරු කෙරේ.',
+                    names: { extendable: 'දිගු කළ හැකි කොහු ආධාරක', pvc: 'PVC බටය සහිත කොහු ආධාරක' },
+                    subs: { extendable: 'Wood + PVC', pvc: 'PVC බටය සහිත' },
+                    msgTitle: 'ආයුබෝවන් Amazing Decora, මට ඇණවුම් කිරීමට අවශ්‍යයි:', msgPack: 'ඇසුරුම්', msgWeight: 'මුළු බර', msgItems: 'ආධාරක', msgDelivery: 'Delivery ගාස්තුව', msgTotal: 'මුළු මුදල', msgNote: 'ඇස්තමේන්තුවකි; අවසන් Delivery ගාස්තුව ඇසුරුම් කළ බර අනුව වෙනස් විය හැක.',
                 },
                 ta: {
-                    title: 'ஆர்டர் & டெலிவரி கணிப்பான்', subtitle: 'உங்கள் ஆர்டரை உருவாக்கி பொருள் தொகை, பார்சல் எடை மற்றும் டெலிவரி கட்டணத்தை கணிக்கவும்.',
-                    yourItems: 'உங்கள் பொருட்கள்', add: 'மேலும் ஒரு பொருளைச் சேர்க்கவும்', item: 'பொருள்', remove: 'நீக்கு', type: 'பொருள் வகை', size: 'அளவு', qty: 'எண்ணிக்கை',
-                    each: 'ஒன்றுக்கு', line: 'மொத்தம்', weight: 'எடை',
-                    pack: 'பொதி எடை (கிராம்)', packHint: 'பொருள் எடையில் பொதி எடை சேர்க்கப்படவில்லை. துல்லியமான கணிப்புக்கு மதிப்பீட்டைச் சேர்க்கவும்.',
-                    summary: 'உங்கள் ஆர்டர் சுருக்கம்', productWeight: 'பொருட்களின் எடை', packWeight: 'பொதி எடை', totalWeight: 'மொத்த பார்சல் எடை',
-                    itemsTotal: 'பொருட்களின் தொகை', delivery: 'கணிக்கப்பட்ட டெலிவரி கட்டணம்', grandTotal: 'கணிக்கப்பட்ட மொத்தம்',
-                    tier1: '1 kg வரை', tier2: 'கூடுதல் kg கட்டணம் சேர்க்கப்பட்டுள்ளது',
-                    whatsapp: 'WhatsApp மூலம் ஆர்டர் அனுப்பவும்', copy: 'சுருக்கத்தை நகலெடுக்கவும்', reset: 'மீட்டமை',
-                    copied: 'சுருக்கம் நகலெடுக்கப்பட்டது. WhatsApp அல்லது Messenger இல் ஒட்டவும்.', copyFail: 'தானாக நகலெடுக்க முடியவில்லை.',
-                    notice: 'டெலிவரி: 1 kg வரை Rs. 424; கூடுதல் ஒவ்வொரு kg அல்லது அதன் பகுதிக்கும் Rs. 100. இது ஒரு மதிப்பீடு மட்டுமே; இறுதி கட்டணம் பொதி செய்யப்பட்ட எடையைப் பொறுத்து பணம் செலுத்துவதற்கு முன் உறுதிப்படுத்தப்படும்.',
-                    names: { extendable: 'Extendable Coir Pole (Wood + PVC)', pvc: 'Coir Pole with PVC Pipe' },
-                    msgTitle: 'வணக்கம் Amazing Decora, நான் ஆர்டர் செய்ய விரும்புகிறேன்:', msgPack: 'பொதி', msgWeight: 'மொத்த எடை', msgItems: 'பொருட்களின் தொகை', msgDelivery: 'டெலிவரி கட்டணம்', msgTotal: 'மொத்தம்', msgNote: 'மதிப்பீடு; இறுதி டெலிவரி கட்டணம் பொதி எடையைப் பொறுத்தது.',
+                    eyebrow: 'உங்கள் ஆர்டரைத் திட்டமிடுங்கள்', title: 'ஆர்டர் & டெலிவரி கணிப்பான்', subtitle: 'கம்பங்களைத் தேர்ந்தெடுத்து மொத்த விலை மற்றும் டெலிவரி கட்டணத்தைப் பார்க்கவும், பின்னர் WhatsApp மூலம் ஆர்டரை அனுப்பவும்.',
+                    step1: 'கம்பங்களைத் தேர்ந்தெடுக்கவும்', step2: 'பொதி (விருப்பத்தேர்வு)', summary: 'சரிபார்த்து அனுப்பவும்',
+                    add: 'மேலும் ஒரு கம்பம் சேர்க்கவும்', empty: 'இன்னும் கம்பங்கள் சேர்க்கப்படவில்லை.', pole: 'கம்பம்', remove: 'நீக்கு', type: 'வகை', size: 'உயரம்', qty: 'எண்ணிக்கை',
+                    pack: 'கணிக்கப்பட்ட பொதி எடை', packHint: 'கம்ப எடையில் பொதி எடை சேர்க்கப்படவில்லை. உறுதியாகத் தெரியாவிட்டால் 0 என விடவும்; இறுதி கட்டணத்தை நாங்கள் உறுதிப்படுத்துவோம்.',
+                    totalWeight: 'பார்சல் எடை', itemsTotal: 'கம்பங்கள்', delivery: 'டெலிவரி (மதிப்பீடு)', grandTotal: 'கணிக்கப்பட்ட மொத்தம்',
+                    hintEmpty: 'டெலிவரி கட்டணத்தைப் பார்க்க ஒரு கம்பத்தைச் சேர்க்கவும்.', hintRoom: (g) => `அடுத்த Rs. 100 கட்டணத்திற்கு முன் இன்னும் ${g} சேர்க்கலாம்.`,
+                    noItems: 'கம்பங்கள் தேர்ந்தெடுக்கப்படவில்லை', count: (n) => `${n} கம்பங்கள்`, review: 'ஆர்டரைப் பார்க்க',
+                    whatsapp: 'WhatsApp மூலம் ஆர்டர் அனுப்பவும்', copy: 'நகலெடு', reset: 'மீண்டும் தொடங்கு',
+                    copied: 'நகலெடுக்கப்பட்டது. WhatsApp அல்லது Messenger இல் ஒட்டவும்.', copyFail: 'தானாக நகலெடுக்க முடியவில்லை.',
+                    notice: 'டெலிவரி: 1 kg வரை Rs. 424; கூடுதல் ஒவ்வொரு kg அல்லது அதன் பகுதிக்கும் Rs. 100. இது மதிப்பீடு மட்டுமே; பணம் செலுத்துவதற்கு முன் பொதி எடையைப் பொறுத்து இறுதி கட்டணம் உறுதிப்படுத்தப்படும்.',
+                    names: { extendable: 'Extendable Coir Pole', pvc: 'Coir Pole with PVC Pipe' },
+                    subs: { extendable: 'Wood + PVC', pvc: 'PVC pipe' },
+                    msgTitle: 'வணக்கம் Amazing Decora, நான் ஆர்டர் செய்ய விரும்புகிறேன்:', msgPack: 'பொதி', msgWeight: 'மொத்த எடை', msgItems: 'கம்பங்கள்', msgDelivery: 'டெலிவரி கட்டணம்', msgTotal: 'மொத்தம்', msgNote: 'மதிப்பீடு; இறுதி டெலிவரி கட்டணம் பொதி எடையைப் பொறுத்தது.',
                 },
             };
 
             let entries = [];
             let nextId = 1;
             let lang = 'en';
+            let lastGrand = null;
             const $ = (id) => document.getElementById(id);
             const t = () => T[lang];
             const rs = (n) => 'Rs. ' + n.toLocaleString('en-LK');
             const g = (n) => n.toLocaleString('en-LK') + ' g';
             const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+            const store = {
+                get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
+                set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* storage unavailable */ } },
+            };
 
             const deliveryFee = (grams) => {
                 if (grams <= 0) return 0;
@@ -197,76 +242,113 @@
             const totals = () => {
                 const lines = entries.filter((e) => e.qty > 0).map((e) => {
                     const p = PRODUCTS[e.type];
-                    return { ...e, unit: p.price[e.size], unitWeight: p.weight[e.size], amount: p.price[e.size] * e.qty, grams: p.weight[e.size] * e.qty };
+                    return { ...e, amount: p.price[e.size] * e.qty, grams: p.weight[e.size] * e.qty };
                 });
                 const product = lines.reduce((s, l) => s + l.grams, 0);
                 const itemsTotal = lines.reduce((s, l) => s + l.amount, 0);
+                const count = lines.reduce((s, l) => s + l.qty, 0);
                 const pack = product > 0 ? Math.max(0, Math.round(Number($('pack').value) || 0)) : 0;
                 const weight = product + pack;
                 const fee = deliveryFee(weight);
-                return { lines, product, pack, weight, itemsTotal, fee, grand: itemsTotal + fee };
+                return { lines, product, pack, weight, count, itemsTotal, fee, grand: itemsTotal + fee };
             };
 
-            const selectClass = 'w-full px-3 py-2.5 rounded-xl border border-gray-200 bg-white text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40';
+            const chip = (active) => active
+                ? 'border-brand-green bg-brand-green text-white shadow-sm'
+                : 'border-gray-200 bg-white text-brand-dark hover:border-brand-green/50';
 
-            function render() {
-                const host = $('items');
-                host.innerHTML = entries.map((e, i) => {
-                    const p = PRODUCTS[e.type];
-                    return `<div class="bg-white rounded-2xl p-5 border border-brand-green/10 shadow-sm" data-id="${e.id}">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="font-bold text-brand-dark">${esc(t().item)} ${i + 1}</span>
-                            ${entries.length > 1 ? `<button type="button" data-action="remove" class="text-sm px-3 py-1.5 rounded-lg bg-red-50 text-red-700 hover:bg-red-100">${esc(t().remove)}</button>` : ''}
+            function itemCard(e, i) {
+                const L = t();
+                const p = PRODUCTS[e.type];
+                return `<article class="bg-white rounded-2xl p-5 border border-brand-green/10 shadow-sm" data-id="${e.id}">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-brand-dark">${esc(L.pole)} ${i + 1}</h3>
+                        <button type="button" data-action="remove" aria-label="${esc(L.remove)} ${i + 1}" title="${esc(L.remove)}"
+                            class="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M9 7V4h6v3"/></svg>
+                        </button>
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">${esc(L.type)}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5" role="group" aria-label="${esc(L.type)}">
+                        ${Object.keys(PRODUCTS).map((k) => `<button type="button" data-action="type" data-value="${k}" aria-pressed="${k === e.type}"
+                            class="text-left px-4 py-3 rounded-xl border-2 transition-colors ${chip(k === e.type)}">
+                            <span class="block font-semibold leading-snug">${esc(L.names[k])}</span>
+                            <span class="block text-xs ${k === e.type ? 'text-white/80' : 'text-gray-500'}">${esc(L.subs[k])} · ${rs(PRODUCTS[k].price['1.5 ft'])}–${rs(PRODUCTS[k].price['4.0 ft']).replace('Rs. ', '')}</span>
+                        </button>`).join('')}
+                    </div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">${esc(L.size)}</p>
+                    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-5" role="group" aria-label="${esc(L.size)}">
+                        ${SIZES.map((s) => `<button type="button" data-action="size" data-value="${s}" aria-pressed="${s === e.size}"
+                            class="py-2 rounded-xl border-2 text-center transition-colors ${chip(s === e.size)}">
+                            <span class="block font-bold text-sm">${s}</span>
+                            <span class="block text-xs ${s === e.size ? 'text-white/80' : 'text-gray-500'}">${p.price[s]}</span>
+                        </button>`).join('')}
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-2" role="group" aria-label="${esc(L.qty)}">
+                            <button type="button" data-action="dec" aria-label="−1" class="w-11 h-11 rounded-full border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10 disabled:opacity-40" ${e.qty <= 0 ? 'disabled' : ''}>−</button>
+                            <input type="number" min="0" inputmode="numeric" data-field="qty" value="${e.qty}" aria-label="${esc(L.qty)}"
+                                class="w-16 h-11 text-center rounded-xl border border-gray-200 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-brand-green/40">
+                            <button type="button" data-action="inc" aria-label="+1" class="w-11 h-11 rounded-full border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10">+</button>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <label class="block sm:col-span-2"><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().type)}</span>
-                                <select data-field="type" class="${selectClass}">
-                                    ${Object.keys(PRODUCTS).map((k) => `<option value="${k}"${k === e.type ? ' selected' : ''}>${esc(t().names[k])}</option>`).join('')}
-                                </select></label>
-                            <label class="block"><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().size)}</span>
-                                <select data-field="size" class="${selectClass}">
-                                    ${SIZES.map((s) => `<option value="${s}"${s === e.size ? ' selected' : ''}>${s} – ${rs(p.price[s])}</option>`).join('')}
-                                </select></label>
-                            <div><span class="block text-sm font-semibold text-brand-dark mb-1.5">${esc(t().qty)}</span>
-                                <div class="flex items-center gap-2">
-                                    <button type="button" data-action="dec" aria-label="−1" class="w-11 h-11 shrink-0 rounded-xl border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10">−</button>
-                                    <input type="number" min="0" inputmode="numeric" data-field="qty" value="${e.qty}" aria-label="${esc(t().qty)}" class="w-full min-w-0 h-11 text-center rounded-xl border border-gray-200 text-base focus:outline-none focus:ring-2 focus:ring-brand-green/40">
-                                    <button type="button" data-action="inc" aria-label="+1" class="w-11 h-11 shrink-0 rounded-xl border border-gray-200 bg-brand-light text-xl text-brand-dark hover:bg-brand-green/10">+</button>
-                                </div></div>
-                        </div>
-                        <p class="mt-4 pt-3 border-t border-gray-100 text-sm text-gray-500 flex flex-wrap justify-between gap-2" data-line>
-                            ${lineText(e)}
-                        </p>
-                    </div>`;
-                }).join('');
-                calc();
+                        <p class="text-right" data-line>${lineText(e)}</p>
+                    </div>
+                </article>`;
             }
 
             function lineText(e) {
                 const p = PRODUCTS[e.type];
-                return `<span>${esc(t().each)}: ${rs(p.price[e.size])} · ${g(p.weight[e.size])}</span><span class="font-semibold text-brand-dark">${esc(t().line)}: ${rs(p.price[e.size] * e.qty)} · ${g(p.weight[e.size] * e.qty)}</span>`;
+                return `<span class="block text-lg font-bold text-brand-dark">${rs(p.price[e.size] * e.qty)}</span>
+                    <span class="block text-xs text-gray-500">${rs(p.price[e.size])} × ${e.qty} · ${g(p.weight[e.size] * e.qty)}</span>`;
+            }
+
+            function render(focusSelector) {
+                $('items').innerHTML = entries.map(itemCard).join('');
+                $('empty').classList.toggle('hidden', entries.length > 0);
+                if (focusSelector) $('items').querySelector(focusSelector)?.focus();
+                calc();
             }
 
             function calc() {
+                const L = t();
                 const r = totals();
-                $('product-weight').textContent = g(r.product);
-                $('pack-weight').textContent = g(r.pack);
+                $('summary-lines').innerHTML = r.lines.length
+                    ? r.lines.map((l) => `<li class="py-3 flex justify-between gap-4 text-sm">
+                        <span><span class="font-semibold text-brand-dark">${esc(L.names[l.type])}</span><span class="block text-gray-500">${l.size} × ${l.qty}</span></span>
+                        <span class="font-semibold whitespace-nowrap">${rs(l.amount)}</span></li>`).join('')
+                    : `<li class="py-5 text-sm text-gray-500 text-center">${esc(L.noItems)}</li>`;
+
                 $('total-weight').textContent = g(r.weight);
-                $('total-kg').textContent = (r.weight / 1000).toFixed(3) + ' kg';
+                $('weight-detail').textContent = r.pack ? `(${g(r.product)} + ${g(r.pack)})` : '';
+                const intoBracket = r.weight === 0 ? 0 : ((r.weight - 1) % 1000) + 1;
+                $('tier-fill').style.width = (intoBracket / 10) + '%';
+                $('tier-hint').textContent = r.weight === 0 ? L.hintEmpty : L.hintRoom(g(1000 - intoBracket));
+
                 $('items-total').textContent = rs(r.itemsTotal);
                 $('delivery-fee').textContent = rs(r.fee);
-                $('tier').textContent = r.weight === 0 ? '' : r.weight <= 1000 ? t().tier1 : t().tier2;
                 $('grand-total').textContent = rs(r.grand);
-                $('whatsapp-btn').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(summaryText(r))}`;
+                $('bar-total').textContent = rs(r.grand);
+                $('bar-count').textContent = L.count(r.count);
+                if (lastGrand !== null && lastGrand !== r.grand) {
+                    for (const el of [$('grand-total'), $('bar-total')]) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+                }
+                lastGrand = r.grand;
+
+                const has = r.count > 0;
+                const wa = $('whatsapp-btn');
+                wa.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(summaryText(r))}`;
+                wa.setAttribute('aria-disabled', String(!has));
+                wa.tabIndex = has ? 0 : -1;
+                $('copy-btn').disabled = !has;
             }
 
             function summaryText(r = totals()) {
                 const L = t();
-                const lines = r.lines.map((l) => `• ${L.names[l.type]} ${l.size} × ${l.qty} = ${rs(l.amount)} (${g(l.grams)})`);
                 return [
-                    L.msgTitle, ...lines, '',
-                    `${L.msgPack}: ${g(r.pack)}`,
-                    `${L.msgWeight}: ${g(r.weight)} (${(r.weight / 1000).toFixed(3)} kg)`,
+                    L.msgTitle,
+                    ...r.lines.map((l) => `• ${L.names[l.type]} (${L.subs[l.type]}) ${l.size} × ${l.qty} = ${rs(l.amount)}`), '',
+                    ...(r.pack ? [`${L.msgPack}: ${g(r.pack)}`] : []),
+                    `${L.msgWeight}: ${g(r.weight)} (${(r.weight / 1000).toFixed(2)} kg)`,
                     `${L.msgItems}: ${rs(r.itemsTotal)}`,
                     `${L.msgDelivery}: ${rs(r.fee)}`,
                     `${L.msgTotal}: ${rs(r.grand)}`, '',
@@ -276,8 +358,16 @@
 
             function setLang(value) {
                 lang = T[value] ? value : 'en';
+                store.set('ad-calc-lang', lang);
                 document.documentElement.lang = lang;
                 document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t()[el.dataset.t]; });
+                document.querySelectorAll('[data-lang]').forEach((b) => {
+                    const on = b.dataset.lang === lang;
+                    b.setAttribute('aria-pressed', String(on));
+                    b.classList.toggle('bg-white', on);
+                    b.classList.toggle('text-brand-dark', on);
+                    b.classList.toggle('text-white', !on);
+                });
                 $('copy-status').textContent = '';
                 render();
             }
@@ -290,29 +380,34 @@
                 if (!btn) return;
                 const e = entryFor(btn);
                 if (!e) return;
-                if (btn.dataset.action === 'remove') entries = entries.filter((x) => x !== e);
-                else e.qty = Math.max(0, e.qty + (btn.dataset.action === 'inc' ? 1 : -1));
-                render();
-            });
-            $('items').addEventListener('change', (ev) => {
-                const field = ev.target.dataset.field;
-                const e = field && entryFor(ev.target);
-                if (!e) return;
-                if (field === 'qty') e.qty = Math.max(0, parseInt(ev.target.value, 10) || 0);
-                else e[field] = ev.target.value;
-                render();
+                const action = btn.dataset.action;
+                if (action === 'remove') { entries = entries.filter((x) => x !== e); render(); $('add-item').focus(); return; }
+                if (action === 'type') e.type = btn.dataset.value;
+                else if (action === 'size') e.size = btn.dataset.value;
+                else e.qty = Math.max(0, e.qty + (action === 'inc' ? 1 : -1));
+                const keep = btn.dataset.value ? `[data-action="${action}"][data-value="${btn.dataset.value}"]` : `[data-action="${action}"]`;
+                render(`[data-id="${e.id}"] ${keep}`);
             });
             $('items').addEventListener('input', (ev) => {
                 if (ev.target.dataset.field !== 'qty') return;
                 const e = entryFor(ev.target);
                 if (!e) return;
                 e.qty = Math.max(0, parseInt(ev.target.value, 10) || 0);
-                ev.target.closest('[data-id]').querySelector('[data-line]').innerHTML = lineText(e);
+                const card = ev.target.closest('[data-id]');
+                card.querySelector('[data-line]').innerHTML = lineText(e);
+                card.querySelector('[data-action="dec"]').disabled = e.qty <= 0;
                 calc();
             });
+            $('items').addEventListener('change', (ev) => {
+                if (ev.target.dataset.field === 'qty') ev.target.value = entryFor(ev.target)?.qty ?? 0;
+            });
             $('pack').addEventListener('input', calc);
-            $('add-item').addEventListener('click', () => addItem());
-            $('lang').addEventListener('change', (ev) => setLang(ev.target.value));
+            $('add-item').addEventListener('click', () => {
+                const last = entries[entries.length - 1];
+                addItem(last?.type, '1.5 ft', 1);
+                $('items').lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            });
+            document.querySelectorAll('[data-lang]').forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
             $('reset-btn').addEventListener('click', () => {
                 entries = []; nextId = 1; $('pack').value = 0; $('copy-status').textContent = ''; addItem();
             });
@@ -327,7 +422,15 @@
                 }
             });
 
+            // Hide the mobile total bar while the summary itself is on screen.
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(([entry]) => {
+                    $('mobile-bar').classList.toggle('translate-y-full', entry.isIntersecting);
+                }, { threshold: 0.15 }).observe($('summary'));
+            }
+
             addItem();
+            setLang(store.get('ad-calc-lang') || 'en');
         })();
     </script>
 </body>
