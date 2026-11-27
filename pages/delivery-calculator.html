@@ -135,7 +135,7 @@
                         <p id="copy-status" class="text-center text-sm text-brand-green min-h-[1.25rem]" role="status" aria-live="polite"></p>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 leading-relaxed mt-4 px-1" data-t="notice">Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.</p>
+                <p class="text-xs text-gray-500 leading-relaxed mt-4 px-1" data-t="notice">Delivery: Rs. 425 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.</p>
             </aside>
         </div>
     </main>
@@ -157,7 +157,7 @@
     <script>
         (() => {
             const WHATSAPP = '94740560413';
-            const DELIVERY_BASE = 424;      // up to 1 kg
+            const DELIVERY_BASE = 425;      // up to 1 kg
             const DELIVERY_PER_KG = 100;    // each additional kg or part of a kg
             const SIZES = ['1.5 ft', '2.0 ft', '2.5 ft', '3.0 ft', '3.5 ft', '4.0 ft'];
             // Prices (Rs) and product weights (g, without packaging) per size.
@@ -182,7 +182,8 @@
                     noItems: 'No poles selected', count: (n) => `${n} pole${n === 1 ? '' : 's'}`, review: 'Review order',
                     whatsapp: 'Send order on WhatsApp', copy: 'Copy summary', reset: 'Start over',
                     copied: 'Copied. Paste it into WhatsApp or Messenger.', copyFail: 'Could not copy automatically. Please copy the text manually.',
-                    notice: 'Delivery: Rs. 424 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.',
+                    notice: 'Delivery: Rs. 425 up to 1 kg, plus Rs. 100 for each additional kg or part of a kg. This is an estimate; we confirm the final charge from the packed weight before you pay.',
+                    short: { extendable: 'Extendable pole', pvc: 'PVC pole' }, feet: (n) => `${n} feet`, sPrice: 'Poles price', sDelivery: 'Estimated delivery', sWeight: 'Package weight', sTotal: 'Total',
                     names: { extendable: 'Extendable Coir Pole', pvc: 'Coir Pole with PVC Pipe' },
                     subs: { extendable: 'Wood + PVC, adjustable', pvc: 'PVC pipe core' },
                     msgTitle: 'Hi Amazing Decora, I would like to order:', msgPack: 'Packaging', msgWeight: 'Total weight', msgItems: 'Poles', msgDelivery: 'Estimated delivery', msgTotal: 'Estimated total', msgNote: 'Estimate; final delivery charge depends on packed weight.',
@@ -197,7 +198,8 @@
                     noItems: 'ආධාරක තෝරා නැත', count: (n) => `ආධාරක ${n}`, review: 'ඇණවුම බලන්න',
                     whatsapp: 'WhatsApp මඟින් ඇණවුම යවන්න', copy: 'Copy කරන්න', reset: 'නැවත අරඹන්න',
                     copied: 'Copy විය. WhatsApp හෝ Messenger වෙත Paste කරන්න.', copyFail: 'ස්වයංක්‍රීයව Copy කළ නොහැකි විය.',
-                    notice: 'Delivery: 1 kg දක්වා Rs. 424; ඊට වැඩි සෑම kg එකකටම හෝ කොටසකට Rs. 100 බැගින්. මෙය ඇස්තමේන්තුවකි; ගෙවීමට පෙර ඇසුරුම් කළ බර අනුව අවසන් ගාස්තුව තහවුරු කෙරේ.',
+                    notice: 'Delivery: 1 kg දක්වා Rs. 425; ඊට වැඩි සෑම kg එකකටම හෝ කොටසකට Rs. 100 බැගින්. මෙය ඇස්තමේන්තුවකි; ගෙවීමට පෙර ඇසුරුම් කළ බර අනුව අවසන් ගාස්තුව තහවුරු කෙරේ.',
+                    short: { extendable: 'දිගු කළ හැකි කොහු ආධාරක', pvc: 'PVC බටය සහිත කොහු ආධාරක' }, feet: (n) => `අඩි ${n}`, sPrice: 'ආධාරක මිල', sDelivery: 'ඇස්තමේන්තු Delivery', sWeight: 'පාර්සල් බර', sTotal: 'මුළු මුදල',
                     names: { extendable: 'දිගු කළ හැකි කොහු ආධාරක', pvc: 'PVC බටය සහිත කොහු ආධාරක' },
                     subs: { extendable: 'Wood + PVC', pvc: 'PVC බටය සහිත' },
                     msgTitle: 'ආයුබෝවන් Amazing Decora, මට ඇණවුම් කිරීමට අවශ්‍යයි:', msgPack: 'ඇසුරුම්', msgWeight: 'මුළු බර', msgItems: 'ආධාරක', msgDelivery: 'Delivery ගාස්තුව', msgTotal: 'මුළු මුදල', msgNote: 'ඇස්තමේන්තුවකි; අවසන් Delivery ගාස්තුව ඇසුරුම් කළ බර අනුව වෙනස් විය හැක.',
@@ -212,7 +214,8 @@
                     noItems: 'கம்பங்கள் தேர்ந்தெடுக்கப்படவில்லை', count: (n) => `${n} கம்பங்கள்`, review: 'ஆர்டரைப் பார்க்க',
                     whatsapp: 'WhatsApp மூலம் ஆர்டர் அனுப்பவும்', copy: 'நகலெடு', reset: 'மீண்டும் தொடங்கு',
                     copied: 'நகலெடுக்கப்பட்டது. WhatsApp அல்லது Messenger இல் ஒட்டவும்.', copyFail: 'தானாக நகலெடுக்க முடியவில்லை.',
-                    notice: 'டெலிவரி: 1 kg வரை Rs. 424; கூடுதல் ஒவ்வொரு kg அல்லது அதன் பகுதிக்கும் Rs. 100. இது மதிப்பீடு மட்டுமே; பணம் செலுத்துவதற்கு முன் பொதி எடையைப் பொறுத்து இறுதி கட்டணம் உறுதிப்படுத்தப்படும்.',
+                    notice: 'டெலிவரி: 1 kg வரை Rs. 425; கூடுதல் ஒவ்வொரு kg அல்லது அதன் பகுதிக்கும் Rs. 100. இது மதிப்பீடு மட்டுமே; பணம் செலுத்துவதற்கு முன் பொதி எடையைப் பொறுத்து இறுதி கட்டணம் உறுதிப்படுத்தப்படும்.',
+                    short: { extendable: 'Extendable pole', pvc: 'PVC pole' }, feet: (n) => `${n} அடி`, sPrice: 'கம்பங்களின் விலை', sDelivery: 'கணிக்கப்பட்ட டெலிவரி', sWeight: 'பார்சல் எடை', sTotal: 'மொத்தம்',
                     names: { extendable: 'Extendable Coir Pole', pvc: 'Coir Pole with PVC Pipe' },
                     subs: { extendable: 'Wood + PVC', pvc: 'PVC pipe' },
                     msgTitle: 'வணக்கம் Amazing Decora, நான் ஆர்டர் செய்ய விரும்புகிறேன்:', msgPack: 'பொதி', msgWeight: 'மொத்த எடை', msgItems: 'கம்பங்கள்', msgDelivery: 'டெலிவரி கட்டணம்', msgTotal: 'மொத்தம்', msgNote: 'மதிப்பீடு; இறுதி டெலிவரி கட்டணம் பொதி எடையைப் பொறுத்தது.',
@@ -342,18 +345,25 @@
                 $('copy-btn').disabled = !has;
             }
 
-            function summaryText(r = totals()) {
+            // Plain summary, e.g. "2.0 feet Extendable pole × 2 = 600" ... "Total = 3,525".
+            function simpleSummary(r = totals()) {
                 const L = t();
-                return [
-                    L.msgTitle,
-                    ...r.lines.map((l) => `• ${L.names[l.type]} (${L.subs[l.type]}) ${l.size} × ${l.qty} = ${rs(l.amount)}`), '',
-                    ...(r.pack ? [`${L.msgPack}: ${g(r.pack)}`] : []),
-                    `${L.msgWeight}: ${g(r.weight)} (${(r.weight / 1000).toFixed(2)} kg)`,
-                    `${L.msgItems}: ${rs(r.itemsTotal)}`,
-                    `${L.msgDelivery}: ${rs(r.fee)}`,
-                    `${L.msgTotal}: ${rs(r.grand)}`, '',
-                    L.msgNote,
-                ].join('\n');
+                const n = (x) => x.toLocaleString('en-LK');
+                const kg = parseFloat((r.weight / 1000).toFixed(2));
+                // Used only for the copied / WhatsApp text, not for the on-page summary.
+                return {
+                    lines: r.lines.map((l) => [`${L.feet(l.size.replace(' ft', ''))} ${L.short[l.type]} × ${l.qty}`, n(l.amount)]),
+                    price: [L.sPrice, n(r.itemsTotal)],
+                    delivery: [L.sDelivery, n(r.fee)],
+                    weight: `${L.sWeight} ${kg} kg`,
+                    total: [L.sTotal, n(r.grand)],
+                };
+            }
+
+            function summaryText(r = totals()) {
+                const s = simpleSummary(r);
+                const eq = ([a, b]) => `${a} = ${b}`;
+                return [...s.lines.map(eq), '', eq(s.price), eq(s.delivery), `(${s.weight})`, eq(s.total)].join('\n');
             }
 
             function setLang(value) {
